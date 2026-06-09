@@ -3,8 +3,8 @@ Contributors: adamsilverstein
 Donate link:
 Tags: admin simplify menus submenus
 Requires at least: 3.0.1
-Tested up to: 5.7
-Stable tag: 1.0.0
+Tested up to: 6.9
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,129 @@ Submenus are now available for disabling.  Note that disabling a top level menu 
 
 Unininstalling and deleting the plugin will remove all of its settings.
 
+== Development ==
+
+= Requirements =
+
+* PHP 7.4 or higher
+* Composer (for managing PHP dependencies)
+* Node.js and npm (for building JavaScript assets)
+
+= Setup =
+
+1. Clone the repository
+2. Run `composer install` to install PHP dependencies
+3. Run `npm install` to install JavaScript dependencies
+4. Run `npm run build` to build the React application
+
+= Code Quality =
+
+This plugin uses PHPStan for static analysis to ensure code quality and type safety.
+
+To run PHPStan:
+
+`composer install` (first time only)
+`npm run phpstan`
+
+Or directly with PHP:
+
+`php vendor/bin/phpstan analyse`
+
+The project is configured to run PHPStan at level 3 for improved reliability and maintainability.
+
+= Testing =
+
+The plugin includes PHP unit tests, end-to-end (E2E) tests, and visual regression tests.
+
+**PHP Unit Tests**
+
+Run PHP unit tests:
+
+`npm run test:php`
+
+**End-to-End Tests**
+
+E2E tests use Playwright to test the plugin in a real WordPress environment.
+
+Setup:
+
+1. Install dependencies: `npm install`
+2. Start WordPress environment: `npm run env:start`
+3. Run tests: `npm run test:e2e`
+
+See `tests/e2e/README.md` for detailed documentation on running and writing E2E tests.
+
+Available E2E test commands:
+
+* `npm run env:start` - Start WordPress test environment
+* `npm run env:stop` - Stop WordPress test environment
+* `npm run test:e2e` - Run E2E tests in headless mode
+* `npm run test:e2e:headed` - Run E2E tests with visible browser
+* `npm run test:e2e:ui` - Run E2E tests in interactive UI mode
+* `npm run test:e2e:debug` - Run E2E tests in debug mode
+* `npm run test:e2e:report` - View test report
+
+**Visual Regression Testing**
+
+This plugin uses Playwright for automated visual regression testing to catch unintended visual changes during development.
+
+*Prerequisites:*
+
+- Node.js 18 or higher
+- Playwright browsers installed (Chromium by default)
+
+*Initial Setup:*
+
+1. Install dependencies: `npm install`
+2. Install Playwright browsers: `npx playwright install --with-deps chromium`
+3. Build the application: `npm run build`
+
+*Running Visual Tests:*
+
+- Run all visual tests: `npm run test:visual`
+- Run tests in UI mode (interactive): `npm run test:visual:ui`
+- Update baseline snapshots: `npm run test:visual:update`
+
+*How It Works:*
+
+Visual regression tests capture screenshots of the UI and compare them to baseline images. If there are visual differences, the tests will fail and generate a report showing what changed. This helps detect:
+
+- Unintended layout changes
+- CSS styling issues
+- Component rendering problems
+- Responsive design regressions
+
+*Test Coverage:*
+
+The visual tests cover:
+- Initial app state (no user selected)
+- User selector dropdown
+- Full menu interface with user selected
+- Menu list with toggle functionality
+- Admin bar options
+- Save and reset buttons
+- Checked menu states
+- Expandable submenus
+- Responsive layouts (tablet and mobile views)
+
+*Updating Snapshots:*
+
+When intentional UI changes are made, update the baseline snapshots:
+
+`npm run test:visual:update`
+
+Review the changes in the `tests/visual/app.spec.js-snapshots/` directory to ensure they match your intended changes.
+
+*CI Integration:*
+
+Visual regression tests run automatically on GitHub Actions for all pull requests and pushes to main/master branches. Test reports and snapshots are uploaded as artifacts for review.
+
+**Running All Tests**
+
+Run all tests (PHP unit tests + E2E tests):
+
+`npm run test`
+
 == Frequently Asked Questions ==
 
 = Does it work with WordPress Multisite? =
@@ -35,6 +158,10 @@ Yes! In a multisite install, User Admin Simplifier works as follows:
 * disabling menus for a user only affects current site. user's menus remain unaffected in other sites
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+Major update: The admin UI has been completely rewritten using React for improved performance and user experience.
+Settings are now saved via AJAX without page reload. All existing functionality is preserved.
 
 = 0.7.1 =
 Enabled editing the admin bar menus and submenus.
@@ -59,6 +186,20 @@ Make css class for +/- more specific to avoid conflicts.
 2. Check the menu section to disable. Click 'Save Changes' to apply your settings. Click 'Clear User Settings' to reset the disabled menus for the selected user.
 
 == Changelog ==
+
+= 3.0.1 =
+* Security hardening: sanitize option keys when saving user settings.
+
+= 2.0.0 =
+* Major UI rewrite using React
+* Settings are now saved via AJAX without page reload
+* Improved user experience with instant feedback on save/reset actions
+* Added success/error messages for user actions
+* All existing functionality preserved
+* Modern build process using Webpack
+
+= 1.0.1 =
+Mark as compatible with WordPress 5.7.
 
 = 0.7.1 =
 Enabled editing the admin bar menus and submenus.
@@ -117,3 +258,7 @@ Bug fix.
 
 = 0.23 =
 * initial release.
+
+
+### WordFence verification code
+axjzfnshmtr7f7ggjqovzuxjzxrlpbc7
